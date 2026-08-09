@@ -42,3 +42,9 @@ Thumbs.db
 .yarn-debug.log*
 .yarn-error.log*
 .pnpm-debug.log*
+
+# AI / IDE tools
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
