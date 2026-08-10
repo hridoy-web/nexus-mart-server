@@ -12,7 +12,7 @@ Run the following commands sequentially to clone the repository, install depende
     cd nexus-mart-backend
     npm install
 
-    cat <<EOT> .env
+    .env (Setup)
     PORT=8000
     DATABASE_URL="postgresql://postgres:password@localhost:5432/nexus_mart_db?schema=public"
     JWT_SECRET="your_jwt_secret_key"
