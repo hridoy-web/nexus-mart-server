@@ -9,7 +9,7 @@ type TProductPayload = {
   userId: string;
 };
 
-// ১. নতুন প্রোডাক্ট তৈরি
+// create new product
 export const createProductInDB = async (payload: TProductPayload) => {
   return await prisma.product.create({
     data: payload,
@@ -24,13 +24,13 @@ export const createProductInDB = async (payload: TProductPayload) => {
   });
 };
 
-// ২. সব প্রোডাক্ট দেখা (Search & Filter সহ)
+// Get all products with (Search & Filter)
 export const getAllProductsFromDB = async (query: { search?: string; categoryId?: string }) => {
   const { search, categoryId } = query;
 
   const whereCondition: any = { isDeleted: false };
 
-  // সার্চ লজিক (Title বা Description দিয়ে)
+  // search logic (Title and Description)
   if (search) {
     whereCondition.OR = [
       { title: { contains: search, mode: "insensitive" } },
@@ -38,7 +38,7 @@ export const getAllProductsFromDB = async (query: { search?: string; categoryId?
     ];
   }
 
-  // ক্যাটাগরি ফিল্টার
+  // category filter
   if (categoryId) {
     whereCondition.categoryId = categoryId;
   }
@@ -53,7 +53,7 @@ export const getAllProductsFromDB = async (query: { search?: string; categoryId?
   });
 };
 
-// ৩. একটি নির্দিষ্ট প্রোডাক্ট দেখা
+// single product get
 export const getSingleProductFromDB = async (id: string) => {
   return await prisma.product.findFirst({
     where: { id, isDeleted: false },
@@ -68,7 +68,7 @@ export const getSingleProductFromDB = async (id: string) => {
   });
 };
 
-// ৪. প্রোডাক্ট তথ্য আপডেট
+// products data update
 export const updateProductInDB = async (id: string, payload: Partial<TProductPayload>) => {
   return await prisma.product.update({
     where: { id },
@@ -76,7 +76,7 @@ export const updateProductInDB = async (id: string, payload: Partial<TProductPay
   });
 };
 
-// ৫. প্রোডাক্ট সফট ডিলিট
+// product soft delete
 export const deleteProductFromDB = async (id: string) => {
   return await prisma.product.update({
     where: { id },
