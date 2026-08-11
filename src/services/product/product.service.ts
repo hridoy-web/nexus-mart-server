@@ -24,12 +24,17 @@ export const createProductInDB = async (payload: any) => {
 };
 
 // Get all products with (Search & Filter)
-export const getAllProductsFromDB = async (query: { search?: string; categoryId?: string }) => {
-  const { search, categoryId } = query;
+export const getAllProductsFromDB = async (query: {
+  search?: string;
+  categoryId?: string;
+  limit?: string;
+  page?: string;
+}) => {
+  const { search, categoryId, limit, page } = query;
 
   const whereCondition: any = { isDeleted: false };
 
-  // search logic (Title and Description)
+  // Search filter
   if (search) {
     whereCondition.OR = [
       { title: { contains: search, mode: "insensitive" } },
@@ -37,13 +42,32 @@ export const getAllProductsFromDB = async (query: { search?: string; categoryId?
     ];
   }
 
-  // category filter
+  // Category filter
   if (categoryId) {
     whereCondition.categoryId = categoryId;
   }
 
+  // Pagination & Limit calculation
+  const take = limit ? parseInt(limit) : undefined;
+  const skip = limit && page ? (parseInt(page) - 1) * take! : undefined;
+
   return await prisma.product.findMany({
     where: whereCondition,
+    take,
+    skip,
+    include: {
+      category: { select: { id: true, name: true } },
+      reviews: { select: { rating: true, comment: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+};
+
+// Get latest 12 products for home page
+export const getHomeProductsFromDB = async () => {
+  return await prisma.product.findMany({
+    where: { isDeleted: false },
+    take: 12,
     include: {
       category: { select: { id: true, name: true } },
       reviews: { select: { rating: true, comment: true } },

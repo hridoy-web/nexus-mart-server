@@ -7,6 +7,7 @@ import {
   getSingleProductFromDB,
   updateProductInDB,
   deleteProductFromDB,
+  getHomeProductsFromDB,
 } from "./product.service.js";
 
 export const createProduct = catchAsync(async (req: Request, res: Response) => {
@@ -27,6 +28,18 @@ export const getAllProducts = catchAsync(async (req: Request, res: Response) => 
     statusCode: 200,
     success: true,
     message: "Products fetched successfully",
+    data: result,
+  });
+});
+
+
+export const getHomeProducts = catchAsync(async (req: Request, res: Response) => {
+  const result = await getHomeProductsFromDB();
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Home products fetched successfully",
     data: result,
   });
 });
