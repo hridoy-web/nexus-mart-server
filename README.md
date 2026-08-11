@@ -1,164 +1,215 @@
-# Nexus Mart - E-Commerce Backend API
+# 🛒 Nexus Mart — E-Commerce Backend API
 
-A RESTful backend service for an e-commerce platform built with Node.js, Express.js, TypeScript, PostgreSQL, and Prisma ORM.
+A clean, scalable, and high-performance e-commerce backend engine built with Node.js, Express, TypeScript, PostgreSQL, and Prisma ORM.
 
----
-
-## 🛠️ Prerequisites & Local Setup
-
-Run the following commands sequentially to clone the repository, install dependencies, configure environment variables, run migrations, and start the development server:
-
-    git clone https://github.com/hridoy-web/nexus-mart-backend.git
-    cd nexus-mart-backend
-    npm install
-
-    cat <<EOT> .env
-    PORT=8000
-    DATABASE_URL="postgresql://postgres:password@localhost:5432/nexus_mart_db?schema=public"
-    JWT_SECRET="your_jwt_secret_key"
-    EOT
-
-    npx prisma migrate dev
-    npx prisma generate
-    npm run dev
+[🌐 Backend Live Link](https://www.google.com/search?q=YOUR_BACKEND_LIVE_LINK) • [💻 Frontend Live Link](https://www.google.com/search?q=YOUR_FRONTEND_LIVE_LINK) • [📦 Client Repo](https://www.google.com/search?q=YOUR_FRONTEND_REPO_LINK) • [🖥️ Server Repo](https://www.google.com/search?q=https://github.com/hridoy-web/nexus-mart-backend)
 
 ---
 
-## 📡 Standard API Response Structure
+## 🛠️ Tech Stack
 
-All API endpoints return responses adhering to a unified schema:
-
-* Success Response Schema:
-
-    {
-      "success": true,
-      "message": "Action completed successfully",
-      "data": {}
-    }
-
-* Error Response Schema:
-
-    {
-      "success": false,
-      "message": "Detailed error description",
-      "errorDetails": {}
-    }
+* **Runtime:** Node.js
+* **Framework:** Express.js
+* **Language:** TypeScript
+* **Database:** PostgreSQL
+* **ORM:** Prisma ORM
+* **Authentication:** JWT (JSON Web Tokens)
 
 ---
 
-## 📚 API Specification
+## ⚡ Quick Start
 
-Base URL: http://localhost:8000/api
+Run these commands in your terminal to set up the server locally:
 
----
+```bash
+git clone https://github.com/hridoy-web/nexus-mart-backend.git
+cd nexus-mart-backend
+npm install
+npx prisma migrate dev
+npx prisma generate
+npm run dev
 
-### 🔑 1. Authentication Module
-
-* POST http://localhost:8000/api/auth/register — Register a new user account
-
-    {
-      "name": "Hridoy Chowdhury",
-      "email": "hridoy@example.com",
-      "password": "securepassword123"
-    }
-
-* POST http://localhost:8000/api/auth/login — Authenticate user credentials and return JWT access token
-
-    {
-      "email": "hridoy@example.com",
-      "password": "securepassword123"
-    }
+```
 
 ---
 
-### 🏷️ 2. Category Module
+## 📡 API Reference
 
-* POST http://localhost:8000/api/categories — Create a new product category
+Base Endpoint: `http://localhost:8000/api`
 
-    {
-      "name": "Electronics"
-    }
+### 🔑 Authentication
 
-* GET http://localhost:8000/api/categories — Retrieve all product categories
+#### Register User
 
-* GET http://localhost:8000/api/categories/:id — Retrieve a single category by ID
+`POST /auth/register` — Create a new user account
 
-* PATCH http://localhost:8000/api/categories/:id — Update a category by ID
+```json
+{
+  "name": "Hridoy Chowdhury",
+  "email": "hridoy@example.com",
+  "password": "securepassword123"
+}
 
-    {
-      "name": "Updated Category Name"
-    }
+```
 
-* DELETE http://localhost:8000/api/categories/:id — Delete a category by ID
+#### Login User
 
----
+`POST /auth/login` — Authenticate and receive access token
 
-### 📦 3. Product Module
+```json
+{
+  "email": "hridoy@example.com",
+  "password": "securepassword123"
+}
 
-* POST http://localhost:8000/api/products — Create a new product entry
-
-    {
-      "title": "Wireless Mouse",
-      "description": "Ergonomic RGB Mouse",
-      "price": 25.99,
-      "stock": 50,
-      "categoryId": "category-uuid",
-      "userId": "user-uuid"
-    }
-
-* GET http://localhost:8000/api/products — Fetch all products with optional search query (?search=mouse)
-
-* GET http://localhost:8000/api/products/:id — Fetch detailed information for a specific product
-
-* PATCH http://localhost:8000/api/products/:id — Update product details
-
-    {
-      "title": "Updated Mouse Title",
-      "price": 29.99
-    }
-
-* DELETE http://localhost:8000/api/products/:id — Remove a product entry from the database
+```
 
 ---
 
-### ⭐ 4. Review Module
+### 🏷️ Categories
 
-* POST http://localhost:8000/api/reviews — Submit rating and feedback for a product
+#### Create Category
 
-    {
-      "rating": 5,
-      "comment": "Good build quality",
-      "productId": "product-uuid",
-      "userId": "user-uuid"
-    }
+`POST /categories` — Add a new product category
 
-* GET http://localhost:8000/api/reviews/product/:productId — Fetch all reviews for a specific product
+```json
+{
+  "name": "Electronics"
+}
+
+```
+
+#### Get All Categories
+
+`GET /categories` — Fetch all categories
+
+#### Get Single Category
+
+`GET /categories/:id` — Fetch category details
+
+#### Update Category
+
+`PATCH /categories/:id` — Modify an existing category
+
+```json
+{
+  "name": "Gadgets & Electronics"
+}
+
+```
+
+#### Delete Category
+
+`DELETE /categories/:id` — Remove a category
 
 ---
 
-### 🛒 5. Cart Module
+### 📦 Products
 
-* POST http://localhost:8000/api/cart — Add item to cart or increment quantity if already exists
+#### Create Product
 
-    {
-      "userId": "user-uuid",
-      "productId": "product-uuid",
-      "quantity": 2
-    }
+`POST /products` — Add a new item to inventory
 
-* GET http://localhost:8000/api/cart/user/:userId — Retrieve all active cart items for a specific user
+```json
+{
+  "title": "Wireless Mouse",
+  "description": "Ergonomic RGB Gaming Mouse",
+  "price": 25.99,
+  "stock": 50,
+  "categoryId": "category-uuid",
+  "userId": "user-uuid"
+}
 
-* DELETE http://localhost:8000/api/cart/:id — Remove a specific item from the cart
+```
+
+#### Get All Products
+
+`GET /products?search=mouse` — Search and filter products
+
+#### Get Single Product
+
+`GET /products/:id` — Fetch product details with reviews
+
+#### Update Product
+
+`PATCH /products/:id` — Update product specs or inventory
+
+```json
+{
+  "title": "Wireless Gaming Mouse",
+  "price": 29.99,
+  "stock": 45
+}
+
+```
+
+#### Delete Product
+
+`DELETE /products/:id` — Remove a product from inventory
 
 ---
 
-### 🛍️ 6. Order Module
+### ⭐ Reviews
 
-* POST http://localhost:8000/api/orders — Convert active cart items into an order using database transactions
+#### Add Review
 
-    {
-      "userId": "user-uuid",
-      "totalAmount": 51.98
-    }
+`POST /reviews` — Submit feedback and rating
 
-* GET http://localhost:8000/api/orders/user/:userId — Retrieve complete order history for a specific user
+```json
+{
+  "rating": 5,
+  "comment": "Exceeded my expectations, great product!",
+  "productId": "product-uuid",
+  "userId": "user-uuid"
+}
+
+```
+
+#### Get Product Reviews
+
+`GET /reviews/product/:productId` — Fetch reviews for a specific item
+
+---
+
+### 🛒 Cart
+
+#### Add to Cart
+
+`POST /cart` — Add item or increment quantity
+
+```json
+{
+  "userId": "user-uuid",
+  "productId": "product-uuid",
+  "quantity": 2
+}
+
+```
+
+#### Get User Cart
+
+`GET /cart/user/:userId` — Fetch user's cart items
+
+#### Remove Cart Item
+
+`DELETE /cart/:id` — Delete item from cart
+
+---
+
+### 🛍️ Orders
+
+#### Place Order
+
+`POST /orders` — Checkout cart items via atomic transaction
+
+```json
+{
+  "userId": "user-uuid",
+  "totalAmount": 51.98
+}
+
+```
+
+#### Get User Orders
+
+`GET /orders/user/:userId` — Fetch user's order history
