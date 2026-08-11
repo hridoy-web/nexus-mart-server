@@ -11,15 +11,17 @@ type TProductPayload = {
 
 // create new product
 export const createProductInDB = async (payload: TProductPayload) => {
+  const { categoryId, userId, ...productData } = payload;
+
   return await prisma.product.create({
-    data: payload,
+    data: {
+      ...productData,
+      category: { connect: { id: categoryId } },
+      user: { connect: { id: userId } },
+    },
     include: {
-      category: {
-        select: { name: true },
-      },
-      user: {
-        select: { name: true, email: true },
-      },
+      category: { select: { name: true } },
+      user: { select: { name: true, email: true } },
     },
   });
 };
@@ -70,6 +72,14 @@ export const getSingleProductFromDB = async (id: string) => {
 
 // products data update
 export const updateProductInDB = async (id: string, payload: Partial<TProductPayload>) => {
+  const existingProduct = await prisma.product.findFirst({
+    where: { id, isDeleted: false },
+  });
+
+  if (!existingProduct) {
+    throw new Error("Product not found or has been deleted!");
+  }
+
   return await prisma.product.update({
     where: { id },
     data: payload,
@@ -78,6 +88,14 @@ export const updateProductInDB = async (id: string, payload: Partial<TProductPay
 
 // product soft delete
 export const deleteProductFromDB = async (id: string) => {
+  const existingProduct = await prisma.product.findFirst({
+    where: { id, isDeleted: false },
+  });
+
+  if (!existingProduct) {
+    throw new Error("Product not found or already deleted!");
+  }
+
   return await prisma.product.update({
     where: { id },
     data: { isDeleted: true },
