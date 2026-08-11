@@ -6,7 +6,7 @@ type TCartItemPayload = {
   quantity: number;
 };
 
-// cart item add and update
+// Add item to cart
 export const addToCartInDB = async (payload: TCartItemPayload) => {
   const { userId, productId, quantity } = payload;
 
@@ -26,7 +26,7 @@ export const addToCartInDB = async (payload: TCartItemPayload) => {
   });
 };
 
-// specific user cart item get
+// Get user cart items with image field
 export const getUserCartFromDB = async (userId: string) => {
   return await prisma.cartItem.findMany({
     where: { userId },
@@ -37,13 +37,28 @@ export const getUserCartFromDB = async (userId: string) => {
           title: true,
           price: true,
           stock: true,
+          image: true,
         },
       },
     },
   });
 };
 
-// cart item remove
+// Update cart item quantity
+export const updateCartItemQuantityInDB = async (id: string, quantity: number) => {
+  if (quantity <= 0) {
+    return await prisma.cartItem.delete({
+      where: { id },
+    });
+  }
+
+  return await prisma.cartItem.update({
+    where: { id },
+    data: { quantity },
+  });
+};
+
+// Remove cart item
 export const removeFromCartInDB = async (id: string) => {
   return await prisma.cartItem.delete({
     where: { id },

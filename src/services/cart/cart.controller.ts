@@ -5,19 +5,14 @@ import {
   addToCartInDB,
   getUserCartFromDB,
   removeFromCartInDB,
+  updateCartItemQuantityInDB,
 } from "./cart.service.js";
 
 export const addToCart = catchAsync(async (req: Request, res: Response) => {
-  const { userId, productId, quantity } = req.body;
-
-  const result = await addToCartInDB({
-    userId,
-    productId,
-    quantity: Number(quantity || 1),
-  });
+  const result = await addToCartInDB(req.body);
 
   sendResponse(res, {
-    statusCode: 201,
+    statusCode: 200,
     success: true,
     message: "Item added to cart successfully",
     data: result,
@@ -31,7 +26,20 @@ export const getUserCart = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Cart fetched successfully",
+    message: "User cart fetched successfully",
+    data: result,
+  });
+});
+
+export const updateCartQuantity = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+  const result = await updateCartItemQuantityInDB(id as string, Number(quantity));
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Cart item quantity updated successfully",
     data: result,
   });
 });
