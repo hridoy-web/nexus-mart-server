@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc && prisma generate",
-    "start": "node dist/server.js",
+    "build": "prisma generate",
     "postinstall": "prisma generate"
   },
   "keywords": [],
@@ -32,6 +31,6 @@
     "@types/pg": "^8.21.0",
     "prisma": "^7.9.1",
     "tsx": "^4.23.11",
-    "typescript": "^7.0.2"
+    "typescript": "^5.7.3"
   }
 }
