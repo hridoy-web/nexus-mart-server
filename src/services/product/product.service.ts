@@ -10,18 +10,14 @@ type TProductPayload = {
 };
 
 // create new product
-export const createProductInDB = async (payload: TProductPayload) => {
+export const createProductInDB = async (payload: any) => {
   const { categoryId, userId, ...productData } = payload;
 
   return await prisma.product.create({
     data: {
       ...productData,
-      category: { connect: { id: categoryId } },
-      user: { connect: { id: userId } },
-    },
-    include: {
-      category: { select: { name: true } },
-      user: { select: { name: true, email: true } },
+      categoryId,
+      userId
     },
   });
 };

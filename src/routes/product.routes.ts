@@ -8,7 +8,7 @@ router.get("/", getAllProducts);
 router.get("/:id", getSingleProduct);
 
 // private route
-router.post("/", auth("ADMIN"), createProduct);
+router.post("/", createProduct);
 router.patch("/:id", auth("ADMIN"), updateProduct);
 router.delete("/:id", auth("ADMIN"), deleteProduct);
 
