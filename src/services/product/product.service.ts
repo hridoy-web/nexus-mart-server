@@ -5,6 +5,7 @@ type TProductPayload = {
   description: string;
   price: number;
   stock: number;
+  image?: string; // image URL
   categoryId: string;
   userId: string;
 };

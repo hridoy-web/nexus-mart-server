@@ -55,6 +55,7 @@ model Product {
   description String
   price       Float
   stock       Int      @default(0)
+  image       String?
   categoryId  String
   userId      String
   isDeleted   Boolean  @default(false)
