@@ -2,7 +2,7 @@
 
 A clean, scalable, and high-performance e-commerce backend engine built with Node.js, Express, TypeScript, PostgreSQL, and Prisma ORM.
 
-[🌐 Backend Live Link](https://www.google.com/search?q=YOUR_BACKEND_LIVE_LINK) • [💻 Frontend Live Link](https://www.google.com/search?q=YOUR_FRONTEND_LIVE_LINK) • [📦 Client Repo](https://www.google.com/search?q=YOUR_FRONTEND_REPO_LINK) • [🖥️ Server Repo](https://www.google.com/search?q=https://github.com/hridoy-web/nexus-mart-backend)
+[🌐 Backend Live Link](https://www.google.com/search?q=https://nexus-mart-server.vercel.app) • [💻 Frontend Live Link](https://www.google.com/search?q=https://nexus-mart-frontend.vercel.app) • [📦 Client Repo](https://www.google.com/search?q=https://github.com/hridoy-web/nexus-mart-frontend) • [🖥️ Server Repo](https://www.google.com/search?q=https://github.com/hridoy-web/nexus-mart-backend)
 
 ---
 
